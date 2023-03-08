@@ -1,5 +1,5 @@
 {
-  "name": "Manabou Chrome Extension",
+  "name": "CrunchyLingo",
   "manifest_version": 3,
   "version": "1.0.0",
   "action": {
