@@ -1,0 +1,35 @@
+{
+  "name": "poc2",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "watch": "vite build --watch",
+    "build": "vue-tsc --noEmit && vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "axios": "^0.27.2",
+    "diff-match-patch": "^1.0.5",
+    "pinia": "^2.0.20",
+    "vue": "^3.2.37"
+  },
+  "devDependencies": {
+    "@types/chrome": "^0.0.195",
+    "@types/node": "^18.7.8",
+    "@typescript-eslint/eslint-plugin": "^5.0.0",
+    "@vitejs/plugin-vue": "^3.0.3",
+    "eslint": "^8.0.1",
+    "eslint-config-standard-with-typescript": "^22.0.0",
+    "eslint-plugin-import": "^2.25.2",
+    "eslint-plugin-n": "^15.0.0",
+    "eslint-plugin-promise": "^6.0.0",
+    "eslint-plugin-vue": "^9.3.0",
+    "prettier": "^2.7.1",
+    "typescript": "*",
+    "vite": "^3.0.7",
+    "vue-tsc": "^0.39.5",
+    "yarn": "^1.22.19"
+  }
+}

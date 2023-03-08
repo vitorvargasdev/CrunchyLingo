@@ -1,0 +1,16 @@
+{
+    "series_id": "GY8VM8MWY",
+    "series_title": "HAIKYU!!",
+    "seasons": [
+        {
+            "season_number": 1,
+            "season_title": "HAIKYU!!",
+            "episodes": [1]
+        },
+        {
+            "season_number": 2,
+            "season_title": "HAIKYU!! 2",
+            "episodes": [1, 2, 3, 4, 5]
+        }
+    ]
+}

@@ -1,0 +1,25 @@
+{
+  "name": "Manabou Chrome Extension",
+  "manifest_version": 3,
+  "version": "1.0.0",
+  "action": {
+    "default_popup": "webapp.html"
+  },
+  "content_scripts": [
+    {
+      "matches": ["*://static.crunchyroll.com/*"],
+      "js": ["./assets/contentScript.js"],
+      "all_frames": true
+    }
+  ],
+  "permissions": ["storage", "tabs", "declarativeContent"],
+  "host_permissions": [
+    "*://static.crunchyroll.com/*"
+  ],
+  "web_accessible_resources": [
+    {
+      "resources": ["webapp.html", "/assets/*", "/subtitles/*", "/kuromoji.js", "/dict/*"],
+      "matches": ["*://static.crunchyroll.com/*"]
+    }
+  ]
+}
