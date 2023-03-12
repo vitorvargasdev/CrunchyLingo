@@ -1,5 +1,7 @@
 import type { Tokenize, Tokenizer } from '@/player/assets/utils/kuromoji-types'
-import type { LANGUAGES } from '@/player/assets/utils/constants'
+import type { LANGUAGES, LANGUAGE_TYPES } from '@/player/assets/utils/constants'
+
+export type SubtitleFormat = 'ass' | 'srt'
 
 export interface Anime {
     series_id: string,
@@ -10,7 +12,7 @@ export interface Anime {
     subtitles: {
         language: string,
         url: string
-        format: 'ass' | 'srt'
+        format: SubtitleFormat
     }[]
 }
 
@@ -26,12 +28,10 @@ export type SubtitlesList = {
     lines: string
 }[]
 
-export type Lang = 'native' | 'japanese'
-
 export interface SubtitleState {
     tokenizer?: Tokenizer,
     language: LANGUAGES,
-    subtitles: Record<Lang, SubtitlesList>;
+    subtitles: Record<LANGUAGE_TYPES, SubtitlesList>;
     current: {
         japanese?: string
         native?: string,
@@ -40,6 +40,7 @@ export interface SubtitleState {
     anime: Anime,
     showSubtitles: boolean
 }
+
 
 export type CrunchyrollMedia = {
     metadata: {
@@ -52,6 +53,6 @@ export type CrunchyrollMedia = {
     subtitles: {
         language: string,
         url: string,
-        format: 'ass' | 'srt'
+        format: SubtitleFormat
     }[]
 }
