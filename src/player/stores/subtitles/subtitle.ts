@@ -1,6 +1,7 @@
 import { defineStore } from 'pinia'
 import { parseASS } from '../../assets/utils/subtitleParsing'
-import { SubtitleState, Lang, SubtitleLine, CrunchyrollMedia } from './types'
+import { SubtitleState, SubtitleLine, CrunchyrollMedia } from './types'
+import { LANGUAGE_TYPES } from '@/player/assets/utils/constants'
 
 import animes from '@/player/animes'
 import * as kuromoji from '@/player/assets/utils/kuromoji'
@@ -34,8 +35,8 @@ export const useSubtitleStore = defineStore('subtitle', {
     }
   },
   actions: {
-    setLanguage(lang: LANGUAGES) {
-      this.language = lang
+    setLanguage(language: LANGUAGES) {
+      this.language = language
     },
     crunchyrollMedia(): CrunchyrollMedia {
       const selfWindow = window as typeof window & { self: { v1config: { media: CrunchyrollMedia } } }
@@ -104,17 +105,17 @@ export const useSubtitleStore = defineStore('subtitle', {
       this.showSubtitles = true
       setTimeout(() => this.crunchyrollSubtitlesHandler('remove'), 1000)
     },
-    fetch(lang: Lang, currentTime: number) {
-      const subtitle = this.subtitles[lang].find((line: SubtitleLine) =>
+    fetch(type: LANGUAGE_TYPES, currentTime: number) {
+      const subtitle = this.subtitles[type].find((line: SubtitleLine) =>
         currentTime >= line.begin &&
         currentTime < line.end
       )?.lines || ''
 
-      if (lang === 'japanese' && this.current.japanese !== subtitle) {
+      if (type === 'japanese' && this.current.japanese !== subtitle) {
         this.current.token = this.tokenizer?.tokenize(subtitle)
       }
 
-      this.current[lang] = subtitle
+      this.current[type] = subtitle
     },
     crunchyrollSubtitlesHandler(action: 'add' | 'remove') {
       const subtitles = document.getElementById('velocity-canvas')

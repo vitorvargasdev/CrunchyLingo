@@ -11,6 +11,11 @@ export enum Actions {
     TIME_UPDATE = 'timeupdate',
 }
 
+export enum LANGUAGE_TYPES {
+    JAPANESE = 'japanese',
+    NATIVE = 'native'
+}
+
 export enum LANGUAGES {
     ENGLISH = 'en-US',
     PORTUGUESE = 'pt-BR',
