@@ -4,6 +4,10 @@ import { usePlayerStore, useSubtitleStore } from '@/player/stores'
 import { startKuromoji } from '@/player/assets/utils/kuromoji'
 import { LANGUAGES, LANGUAGE_TYPES } from '@/player/assets/utils/constants'
 import SubtitleItem from '@/player/components/subtitles/SubtitleItem.vue'
+import SettingsIcon from '@/player/assets/icons/settings.svg?raw'
+import ArrowLeftIcon from '@/player/assets/icons/arrow-left.svg?raw'
+import ArrowRightIcon from '@/player/assets/icons/arrow-right.svg?raw'
+import ReloadIcon from '@/player/assets/icons/reload.svg?raw'
 
 const player = usePlayerStore()
 const subtitle = useSubtitleStore()
@@ -33,8 +37,30 @@ onMounted(() => {
     class="container"
   >
     <div class="content">
-      <subtitle-item :type="LANGUAGE_TYPES.JAPANESE" />
-      <subtitle-item :type="LANGUAGE_TYPES.NATIVE" />
+      <div class="side-options">
+        <div
+          class="icon"
+          v-html="ArrowRightIcon"
+        />
+        <div
+          class="icon"
+          v-html="ReloadIcon"
+        />
+        <div
+          class="icon"
+          v-html="ArrowLeftIcon"
+        />
+      </div>
+      <div>
+        <subtitle-item :type="LANGUAGE_TYPES.JAPANESE" />
+        <subtitle-item :type="LANGUAGE_TYPES.NATIVE" />
+      </div>
+      <div class="side-options">
+        <div
+          class="icon"
+          v-html="SettingsIcon"
+        />
+      </div>
     </div>
   </div>
 </template>
@@ -55,12 +81,30 @@ onMounted(() => {
 
   .content
     display: flex
-    flex-direction: column
+    flex-direction: row
     align-items: center
+    justify-content: space-between
     width: 100%
+    min-height: 200px
     z-index: 1
     position: absolute
-    bottom: 100px
+    bottom: 75px
+    pointer-events: none
+
+  .side-options
+    display: flex
+    flex-direction: column
+    padding: 0px 22px 0px 22px
+    gap: 8px
+    cursor: pointer
     pointer-events: auto
 
+  .icon
+      width: 40px
+      height: 40px
+      border-radius: 8px
+      background: rgba(165, 167, 171, 0.8)
+      display: flex
+      align-items: center
+      justify-content: center
 </style>
