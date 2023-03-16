@@ -41,7 +41,6 @@ export interface SubtitleState {
     showSubtitles: boolean
 }
 
-
 export type CrunchyrollMedia = {
     metadata: {
         series_id: string,

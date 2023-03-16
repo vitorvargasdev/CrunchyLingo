@@ -1,7 +1,8 @@
 import { defineStore } from 'pinia'
-import { parseASS } from '../../assets/utils/subtitleParsing'
+import { usePlayerStore } from '@/player/stores'
+import { parseASS } from '@/player/assets/utils/subtitleParsing'
 import { SubtitleState, SubtitleLine, CrunchyrollMedia } from './types'
-import { LANGUAGE_TYPES } from '@/player/assets/utils/constants'
+import { LANGUAGE_TYPES, SUBTITLE_ACTIONS } from '@/player/assets/utils/constants'
 
 import animes from '@/player/animes'
 import * as kuromoji from '@/player/assets/utils/kuromoji'
@@ -86,7 +87,7 @@ export const useSubtitleStore = defineStore('subtitle', {
       const baseUrl = document.querySelector('#app')?.getAttribute('extension')
       const native = this.anime.subtitles.find((item) => item.language === this.language)?.url
       const seasonNumber = this.fetchCurrentSeasonNumber()
-      const japanese = `${baseUrl}subtitles/${this.anime.series_title}/${seasonNumber}/${this.anime.episode_number}.ass` 
+      const japanese = `${baseUrl}subtitles/${this.anime.series_title}/${seasonNumber}/${this.anime.episode_number}.ass`
 
       if (!this.tokenizer) {
         this.tokenizer = await kuromoji.startKuromoji()
@@ -111,7 +112,7 @@ export const useSubtitleStore = defineStore('subtitle', {
         currentTime < line.end
       )?.lines || ''
 
-      if (type === 'japanese' && this.current.japanese !== subtitle) {
+      if (type === LANGUAGE_TYPES.JAPANESE && this.current.japanese !== subtitle) {
         this.current.token = this.tokenizer?.tokenize(subtitle)
       }
 
@@ -123,6 +124,18 @@ export const useSubtitleStore = defineStore('subtitle', {
       if (subtitles) {
         subtitles.style.display = action === 'add' ? 'block' : 'none'
       }
+    },
+    setSubtitle(action: SUBTITLE_ACTIONS) {
+      const player = usePlayerStore()
+      const currentTime = player.playerInfo.currentProgress
+      let currentIndex = this.subtitles.japanese.findIndex((line: SubtitleLine) => currentTime >= line.begin && currentTime < line.end || currentTime < line.end)
+
+      action === SUBTITLE_ACTIONS.PREVIOUS && currentIndex--
+      action === SUBTITLE_ACTIONS.NEXT && currentIndex++
+
+      const subtitle = this.subtitles.japanese[currentIndex]
+
+      if (subtitle) player.setCurrentTime(subtitle.begin)
     }
   }
 })

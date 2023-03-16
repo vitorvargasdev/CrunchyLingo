@@ -20,3 +20,9 @@ export enum LANGUAGES {
     ENGLISH = 'en-US',
     PORTUGUESE = 'pt-BR',
 }
+
+export enum SUBTITLE_ACTIONS {
+    PREVIOUS = 'PREVIOUS',
+    NEXT = 'NEXT',
+    RELOAD = 'RELOAD'
+}
