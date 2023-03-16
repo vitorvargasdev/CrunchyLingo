@@ -1,10 +1,11 @@
 <script setup lang="ts">
-import { defineProps, defineEmits } from 'vue'
+import { defineProps, defineEmits, Ref, ref, computed } from 'vue'
 import SideButtonItem from './SideButtonItem.vue'
-import XSquere from '@/player/assets/icons/x-square.svg?raw'
-import Home from '@/player/assets/icons/home.svg?raw'
-import OpenaiIcon from '@/player/assets/icons/openai-sm.svg?raw'
-import CodeIcon from '@/player/assets/icons/code.svg?raw'
+import type { Option } from './types'
+import { XSquare, Home, OpenaiIcon, CodeIcon } from '@/player/assets/icons'
+import General from './General.vue'
+import ChatGPT from './ChatGPT.vue'
+import Developer from './Developer.vue'
 
 const props = defineProps({
   modelValue: {
@@ -14,6 +15,37 @@ const props = defineProps({
 })
 
 const emits = defineEmits(['update:modelValue'])
+
+const options: Ref<Option[]> = ref([
+  {
+    name: 'General',
+    icon: Home,
+    active: true,
+    key: General
+  },
+  {
+    name: 'ChatGPT',
+    icon: OpenaiIcon,
+    active: false,
+    key: ChatGPT
+  },
+  {
+    name: 'Developer',
+    icon: CodeIcon,
+    active: false,
+    key: Developer
+  }
+])
+
+const activeTab = computed(() => {
+  return options.value.find((option) => option.active) as Option
+})
+
+const setActive = (selected: Option) => {
+  options.value.forEach((option) => {
+    option.active = option.name === selected.name
+  })
+}
 
 const close = () => {
   emits('update:modelValue', false)
@@ -28,34 +60,29 @@ const close = () => {
     <div class="modal">
       <div class="modal-header">
         <div class="title">
-          <div v-html="Home" />
-          <div>General</div>
+          <div v-html="activeTab.icon" />
+          <div v-text="activeTab.name" />
         </div>
         <div
           class="close-button"
           @click.stop="close()"
-          v-html="XSquere"
+          v-html="XSquare"
         />
       </div>
 
       <div class="modal-body">
         <div class="modal-body-sidebar">
           <side-button-item
-            text="General"
-            :icon="Home"
-            active
-          />
-          <side-button-item
-            text="ChatGPT"
-            :icon="OpenaiIcon"
-          />
-          <side-button-item
-            text="Developer"
-            :icon="CodeIcon"
+            v-for="option in options"
+            :key="option.name"
+            :text="option.name"
+            :icon="option.icon"
+            :active="option.active"
+            @click.stop="setActive(option)"
           />
         </div>
         <div class="modal-body-content">
-          //
+          <component :is="activeTab.key" />
         </div>
       </div>
     </div>
@@ -85,10 +112,9 @@ const close = () => {
     display: flex
     flex-direction: row
     &-sidebar
-      padding: 10px
       flex-grow: 0
       flex-shrink: 0
-      flex-basis: 150px
+      flex-basis: 170px
       border-right: 1px solid rgba(0, 0, 0, 0.5)
       flex-direction: column
     &-content
