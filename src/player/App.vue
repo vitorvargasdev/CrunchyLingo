@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { onMounted, ref, watchEffect } from 'vue'
-import { usePlayerStore, useSubtitleStore } from '@/player/stores'
+import { usePlayerStore, useAnimeStore, useSubtitleStore } from '@/player/stores'
 import { startKuromoji } from '@/player/assets/utils/kuromoji'
 import { LANGUAGES, LANGUAGE_TYPES, SUBTITLE_ACTIONS } from '@/player/assets/utils/constants'
 import SubtitleItem from '@/player/components/subtitles/SubtitleItem.vue'
@@ -15,6 +15,7 @@ import {
 import SettingsModal from '@/player/components/settings/SettingsModal.vue'
 
 const player = usePlayerStore()
+const anime = useAnimeStore()
 const subtitle = useSubtitleStore()
 
 watchEffect(() => {
@@ -32,9 +33,9 @@ const showModal = ref(false)
 
 onMounted(() => {
   startKuromoji()
+  anime.getAnime()
   player.load()
   subtitle.setLanguage(LANGUAGES.ENGLISH)
-  subtitle.getAnime()
 })
 </script>
 
