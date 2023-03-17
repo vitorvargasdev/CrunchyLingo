@@ -4,7 +4,7 @@ import { usePlayerStore, useAnimeStore, useSubtitleStore } from '@/player/stores
 import { startKuromoji } from '@/player/assets/utils/kuromoji'
 import { LANGUAGES, LANGUAGE_TYPES, SUBTITLE_ACTIONS } from '@/player/assets/utils/constants'
 import SubtitleItem from '@/player/components/subtitles/SubtitleItem.vue'
-import { 
+import {
   SettingsIcon,
   ArrowLeftIcon,
   ArrowRightIcon,
