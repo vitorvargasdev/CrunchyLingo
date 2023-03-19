@@ -6,6 +6,7 @@ import { XSquare, Home, OpenaiIcon, CodeIcon } from '@/player/assets/icons'
 import General from './General.vue'
 import ChatGPT from './ChatGPT.vue'
 import Developer from './Developer.vue'
+import { useI18n } from 'vue-i18n'
 
 const props = defineProps({
   modelValue: {
@@ -16,21 +17,23 @@ const props = defineProps({
 
 const emits = defineEmits(['update:modelValue'])
 
+const { t } = useI18n()
+
 const options: Ref<Option[]> = ref([
   {
-    name: 'General',
+    name: t('settings.sidebar.general'),
     icon: Home,
     active: true,
     key: General
   },
   {
-    name: 'ChatGPT',
+    name: t('settings.sidebar.chatGPT'),
     icon: OpenaiIcon,
     active: false,
     key: ChatGPT
   },
   {
-    name: 'Developer',
+    name: t('settings.sidebar.developer'),
     icon: CodeIcon,
     active: false,
     key: Developer
