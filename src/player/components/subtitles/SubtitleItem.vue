@@ -33,13 +33,13 @@ const subtitle = useSubtitleStore()
 
 <style scoped lang="sass">
 
-  .subtitle
-    color: #fff
-    font-size: 24px
-    text-align: center
-    text-shadow: -1px -1px 0 black, 1px -1px 0 black, -1px 1px 0 black, 1px 1px 0 black, 0 0 5px black
-    margin: 10px auto
-    pointer-events: auto
-    min-height: 50px
+.subtitle
+  color: #fff
+  font-size: 24px
+  text-align: center
+  text-shadow: -1px -1px 0 black, 1px -1px 0 black, -1px 1px 0 black, 1px 1px 0 black, 0 0 5px black
+  margin: 10px auto
+  pointer-events: auto
+  min-height: 50px
 
 </style>

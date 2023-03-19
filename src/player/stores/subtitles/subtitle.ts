@@ -1,16 +1,14 @@
 import { defineStore } from 'pinia'
-import { usePlayerStore, useAnimeStore } from '@/player/stores'
+import { usePlayerStore, useAnimeStore, useSettingsStore } from '@/player/stores'
 import { parseASS } from '@/player/assets/utils/subtitleParsing'
 import { SubtitleState, SubtitleLine } from './types'
 import { LANGUAGE_TYPES, SUBTITLE_ACTIONS } from '@/player/assets/utils/constants'
 
 import * as kuromoji from '@/player/assets/utils/kuromoji'
-import { LANGUAGES } from '@/player/assets/utils/constants'
 
 export const useSubtitleStore = defineStore('subtitle', {
   state: (): SubtitleState => ({
     tokenizer: undefined,
-    language: LANGUAGES.ENGLISH,
     subtitles: {
       japanese: [],
       native: []
@@ -27,9 +25,6 @@ export const useSubtitleStore = defineStore('subtitle', {
     }
   },
   actions: {
-    setLanguage(language: LANGUAGES) {
-      this.language = language
-    },
     async load() {
       const anime = useAnimeStore()
       if (!anime.isSupportedAnime()) {
@@ -38,7 +33,8 @@ export const useSubtitleStore = defineStore('subtitle', {
         return
       }
 
-      const { native, japanese } = anime.fetchSubtitles(this.language)
+      const { language } = useSettingsStore().general
+      const { native, japanese } = anime.fetchSubtitles(language)
 
       if (!this.tokenizer) {
         this.tokenizer = await kuromoji.startKuromoji()

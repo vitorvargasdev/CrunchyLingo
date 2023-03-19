@@ -1,5 +1,5 @@
 import type { Tokenize, Tokenizer } from '@/player/assets/utils/kuromoji-types'
-import type { LANGUAGES, LANGUAGE_TYPES } from '@/player/assets/utils/constants'
+import type { LANGUAGE_TYPES } from '@/player/assets/utils/constants'
 
 export type SubtitleLine = {
     begin: number
@@ -15,7 +15,6 @@ export type SubtitlesList = {
 
 export interface SubtitleState {
     tokenizer?: Tokenizer,
-    language: LANGUAGES,
     subtitles: Record<LANGUAGE_TYPES, SubtitlesList>;
     current: {
         japanese?: string
