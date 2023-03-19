@@ -3,17 +3,19 @@ import { ref } from 'vue'
 import { useSettingsStore } from '@/player/stores'
 import { LANGUAGES } from '@/player/assets/utils/constants'
 import VSelect from '@/player/components/vSelect/vSelect.vue'
+import { useI18n } from 'vue-i18n'
 
+const { t } = useI18n()
 const settingsStore = useSettingsStore()
 const selected = ref(settingsStore.general.language)
 
 const options = ref([
   {
-    label: 'English',
+    label: t('languages.en'),
     code: LANGUAGES.ENGLISH
   },
   {
-    label: 'Português (Brasil)',
+    label: t('languages.ptBR'),
     code: LANGUAGES.PORTUGUESE
   }
 ])
@@ -23,7 +25,10 @@ const options = ref([
 <template>
   <div class="-container">
     <form @submit.prevent>
-      <label for="native-language">Choose your native language</label>
+      <label
+        for="native-language"
+        v-text="t('settings.general.chooseNativeLanguage')"
+      />
       <v-select
         v-model="selected"
         :options="options"
