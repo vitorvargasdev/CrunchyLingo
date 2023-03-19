@@ -1,29 +1,19 @@
 import { defineStore } from 'pinia'
-import { parseASS } from '../../assets/utils/subtitleParsing'
-import { SubtitleState, SubtitleLine, CrunchyrollMedia } from './types'
-import { LANGUAGE_TYPES } from '@/player/assets/utils/constants'
+import { usePlayerStore, useAnimeStore, useSettingsStore } from '@/player/stores'
+import { parseASS } from '@/player/assets/utils/subtitleParsing'
+import { SubtitleState, SubtitleLine } from './types'
+import { LANGUAGE_TYPES, SUBTITLE_ACTIONS } from '@/player/assets/utils/constants'
 
-import animes from '@/player/animes'
 import * as kuromoji from '@/player/assets/utils/kuromoji'
-import { LANGUAGES } from '@/player/assets/utils/constants'
 
 export const useSubtitleStore = defineStore('subtitle', {
   state: (): SubtitleState => ({
     tokenizer: undefined,
-    language: LANGUAGES.ENGLISH,
     subtitles: {
       japanese: [],
       native: []
     },
     current: {},
-    anime: {
-      series_id: '',
-      title: '',
-      series_title: '',
-      season_title: '',
-      episode_number: '',
-      subtitles: []
-    },
     showSubtitles: false
   }),
   getters: {
@@ -35,58 +25,16 @@ export const useSubtitleStore = defineStore('subtitle', {
     }
   },
   actions: {
-    setLanguage(language: LANGUAGES) {
-      this.language = language
-    },
-    crunchyrollMedia(): CrunchyrollMedia {
-      const selfWindow = window as typeof window & { self: { v1config: { media: CrunchyrollMedia } } }
-      return selfWindow.self.v1config.media
-    },
-    getAnime() {
-      const { metadata, subtitles } = this.crunchyrollMedia()
-
-      const animeData = {
-        series_id: metadata.series_id,
-        title: metadata.title,
-        series_title: metadata.series_title,
-        season_title: metadata.season_title,
-        episode_number: metadata.episode_number,
-        subtitles
-      }
-
-      if (animeData.title !== this.anime.title || animeData.episode_number !== this.anime.episode_number) {
-        this.anime = animeData
-        this.load()
-      }
-
-      setTimeout(() => this.getAnime(), 2000)
-    },
-    isSupportedAnime(): boolean {
-      return animes.some(({ series_id, seasons }) =>
-        series_id === this.anime.series_id &&
-        seasons.some(({ season_title, episodes }) =>
-          season_title === this.anime.season_title &&
-          episodes.includes(Number(this.anime.episode_number))
-        )
-      )
-    },
-    fetchCurrentSeasonNumber(): number | undefined {
-      const anime = animes.find(item => item.series_id === this.anime.series_id)
-      const season = anime?.seasons.find(season => season.season_title === this.anime.season_title)
-
-      return season?.season_number
-    },
     async load() {
-      if (!this.isSupportedAnime()) {
+      const anime = useAnimeStore()
+      if (!anime.isSupportedAnime()) {
         setTimeout(() => this.crunchyrollSubtitlesHandler('add'), 1000)
         this.showSubtitles = false
         return
       }
 
-      const baseUrl = document.querySelector('#app')?.getAttribute('extension')
-      const native = this.anime.subtitles.find((item) => item.language === this.language)?.url
-      const seasonNumber = this.fetchCurrentSeasonNumber()
-      const japanese = `${baseUrl}subtitles/${this.anime.series_title}/${seasonNumber}/${this.anime.episode_number}.ass` 
+      const { language } = useSettingsStore().general
+      const { native, japanese } = anime.fetchSubtitles(language)
 
       if (!this.tokenizer) {
         this.tokenizer = await kuromoji.startKuromoji()
@@ -111,7 +59,7 @@ export const useSubtitleStore = defineStore('subtitle', {
         currentTime < line.end
       )?.lines || ''
 
-      if (type === 'japanese' && this.current.japanese !== subtitle) {
+      if (type === LANGUAGE_TYPES.JAPANESE && this.current.japanese !== subtitle) {
         this.current.token = this.tokenizer?.tokenize(subtitle)
       }
 
@@ -123,6 +71,18 @@ export const useSubtitleStore = defineStore('subtitle', {
       if (subtitles) {
         subtitles.style.display = action === 'add' ? 'block' : 'none'
       }
+    },
+    setSubtitle(action: SUBTITLE_ACTIONS) {
+      const player = usePlayerStore()
+      const currentTime = player.playerInfo.currentProgress
+      let currentIndex = this.subtitles.japanese.findIndex((line: SubtitleLine) => currentTime >= line.begin && currentTime < line.end || currentTime < line.end)
+
+      action === SUBTITLE_ACTIONS.PREVIOUS && currentIndex--
+      action === SUBTITLE_ACTIONS.NEXT && currentIndex++
+
+      const subtitle = this.subtitles.japanese[currentIndex]
+
+      if (subtitle) player.setCurrentTime(subtitle.begin)
     }
   }
 })
