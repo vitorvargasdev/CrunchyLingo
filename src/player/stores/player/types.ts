@@ -6,18 +6,19 @@ export interface PlayerInfo {
     timeJump: boolean
 }
 
-export type PlayerStateProp =
-    'controls' |
-    'currentTime' |
-    'defaultMuted' |
-    'defaultPlaybackRate' |
-    'duration' |
-    'ended' |
-    'loop' |
-    'muted' |
-    'paused' |
-    'playbackRate' |
-    'volume';
+export enum PLAYER_STATE_PROPS {
+    CONTROLS = 'controls',
+    CURRENT_TIME = 'currentTime',
+    DEFAULT_MUTED = 'defaultMuted',
+    DEFAULT_PLAYBACK_RATE = 'defaultPlaybackRate',
+    DURATION = 'duration',
+    ENDED = 'ended',
+    LOOP = 'loop',
+    MUTED = 'muted',
+    PAUSED = 'paused',
+    PLAYBACK_RATE = 'playbackRate',
+    VOLUME = 'volume'
+}
 
 export interface State {
     player: HTMLVideoElement | undefined,

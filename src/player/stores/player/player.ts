@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia'
 import { States } from '@/player/assets/utils/constants'
-import { State, PlayerStateProp } from './types'
+import { State, PLAYER_STATE_PROPS } from './types'
 
 export const usePlayerStore = defineStore('player', {
   state: (): State => ({
@@ -17,14 +17,14 @@ export const usePlayerStore = defineStore('player', {
       this.player = document.getElementById('player0') as HTMLVideoElement
       setInterval(() => this.getPlayerStates(), 500)
     },
-    getPlayerState(stateName: PlayerStateProp): boolean | number | string {
+    getPlayerState(stateName: PLAYER_STATE_PROPS): boolean | number | string {
       return this.player![stateName]
     },
     getPlayerStates() {
       const LIMIT_DELTA_TIME = 3
       const [paused, currentProgress]: [boolean, number] = [
-        this.getPlayerState('paused') as boolean,
-        this.getPlayerState('currentTime') as number
+        this.getPlayerState(PLAYER_STATE_PROPS.PAUSED) as boolean,
+        this.getPlayerState(PLAYER_STATE_PROPS.CURRENT_TIME) as number
       ]
 
       this.lastFrameProgress = this.lastFrameProgress || currentProgress
@@ -34,6 +34,9 @@ export const usePlayerStore = defineStore('player', {
 
       this.lastFrameProgress = currentProgress
       this.playerInfo = { state, currentProgress, timeJump }
+    },
+    setCurrentTime(time: number) {
+      return this.player![PLAYER_STATE_PROPS.CURRENT_TIME] = time
     }
   }
 })

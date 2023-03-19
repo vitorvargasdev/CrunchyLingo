@@ -1,0 +1,17 @@
+{
+  "settings": {
+    "sidebar": {
+      "general": "General",
+      "chatGPT": "ChatGPT",
+      "developer": "Developer"
+    },
+    "general": {
+      "chooseNativeLanguage": "Choose your native language"
+    }
+  },
+  "languages": {
+    "en": "English",
+    "ptBR": "Português (Brasil)"
+  },
+  "comingSoon": "Coming soon..."
+}

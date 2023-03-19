@@ -2,7 +2,7 @@
 
 CrunchyLingo is a Google Chrome extension that allows you to study Japanese while watching anime on [Crunchyroll](https://www.crunchyroll.com/).
 
-![CrunchyLingo Screenshot](https://user-images.githubusercontent.com/50197635/223638551-3170bfd8-2bf8-41f5-8425-195fad68ae1f.png)
+![CrunchyLingo Screenshot](https://user-images.githubusercontent.com/50197635/225587918-ced4b72e-923a-44d5-b575-89cfd49636e6.png)
 
 ## 🎬 What is Crunchyroll?
 
@@ -17,13 +17,15 @@ Overall, CrunchyLingo aims to make learning Japanese more engaging and fun for a
 ## 🌟 Features
 
 - Furigana display option for kanji reading
+- Subtitle Controls feature to easily navigate subtitles during playback
 
 ### 💡 Future Features
 
-- Auto-pause feature to stop the video when the subtitle appears
 - Vocabulary list to review words and phrases
+- Japanese dictionary integration for easy word lookup (Jisho and Manabou)
+- ChatGPT Integration to explain difficult words and phrases
+- Auto-pause feature to stop the video when the subtitle appears
 - Customizable flashcards for studying
-- Japanese dictionary integration for easy word lookup
 
 Please note that CrunchyLingo is in a very early development phase and new features will be added in the future.
 
