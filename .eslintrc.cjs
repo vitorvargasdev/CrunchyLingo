@@ -25,7 +25,6 @@ module.exports = {
     semi: ['error', 'never'],
     '@typescript-eslint/no-non-null-assertion': 'off',
     indent: ['error', 2],
-    // vue no child off
     'vue/no-v-html': 'off',
     'vue/no-child-content': 'off',
     'vue/multi-word-component-names': 'off'
