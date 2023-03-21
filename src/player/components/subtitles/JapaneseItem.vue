@@ -2,6 +2,7 @@
 import { PropType } from 'vue'
 import { furiganaToKuromoji } from '@/player/assets/utils/analysis'
 import type { Tokenize } from '@/player/assets/utils/kuromoji-types'
+import Dictionary from '@/player/components/dictionary/Dictionary.vue'
 
 const props = defineProps({
   data: {
@@ -17,11 +18,21 @@ const props = defineProps({
       v-for="(item, index) in props.data"
       :key="index"
     >
-      <span
-        onmouseover="this.style.backgroundColor = 'rgba(0, 128, 0, 0.3)'"
-        onmouseout="this.style.backgroundColor = 'rgba(0, 128, 0, 0)'"
-        v-html="furiganaToKuromoji(item)"
-      />
+      <VDropdown
+        placement="top"
+        :distance="20"
+        class="subtitle"
+      >
+        <span
+          onmouseover="this.style.backgroundColor = 'rgba(0, 128, 0, 0.3)'"
+          onmouseout="this.style.backgroundColor = 'rgba(0, 128, 0, 0)'"
+          v-html="furiganaToKuromoji(item)"
+        />
+
+        <template #popper>
+          <dictionary :word="item.surface_form" />
+        </template>
+      </VDropdown>
       <span
         v-show="
           item.surface_form !== ' ' &&
@@ -35,3 +46,10 @@ const props = defineProps({
     </span>
   </div>
 </template>
+
+<style scoped lang="sass">
+
+.subtitle
+  display: inline
+
+</style>

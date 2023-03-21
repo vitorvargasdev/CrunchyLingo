@@ -37,6 +37,12 @@ export const usePlayerStore = defineStore('player', {
     },
     setCurrentTime(time: number) {
       return this.player![PLAYER_STATE_PROPS.CURRENT_TIME] = time
+    },
+    play () {
+      this.player!.play()
+    },
+    pause () {
+      this.player!.pause()
     }
   }
 })
