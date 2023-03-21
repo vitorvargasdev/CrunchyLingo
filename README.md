@@ -18,11 +18,13 @@ Overall, CrunchyLingo aims to make learning Japanese more engaging and fun for a
 
 - Furigana display option for kanji reading
 - Subtitle Controls feature to easily navigate subtitles during playback
+- Japanese dictionary integration for easy word lookup (Jisho and Manabou)
+  - Jisho is a Japanese-English dictionary that is currently only available in English
+  - Manabou is a Japanese-Portuguese dictionary that is currently only available in Portuguese
 
 ### 💡 Future Features
 
 - Vocabulary list to review words and phrases
-- Japanese dictionary integration for easy word lookup (Jisho and Manabou)
 - ChatGPT Integration to explain difficult words and phrases
 - Auto-pause feature to stop the video when the subtitle appears
 - Customizable flashcards for studying
